@@ -18,4 +18,8 @@ export class SoftwareService {
     this.software.push(softwareWithId);
     return softwareWithId;
   }
+
+  getSoftwareById(id: string) {
+    return this.software.find((software) => software.id === id);
+  }
 }
