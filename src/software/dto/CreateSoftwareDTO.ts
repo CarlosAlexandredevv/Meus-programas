@@ -9,6 +9,7 @@ import {
 export class createSoftwareDTO {
   id: string;
   createdAt: Date;
+  idUser: number;
 
   @IsNotEmpty()
   @IsString({ message: 'The name must be a string' })
