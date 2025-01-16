@@ -2,13 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { createSoftwareDTO } from './dto/CreateSoftwareDTO';
 import { v4 as uuidv4 } from 'uuid';
 import { EditarSoftwareDTO } from './dto/EditarSoftwareDTO';
+import { format } from 'date-fns';
 
 @Injectable()
 export class SoftwareService {
   private software = [];
 
   getSoftware() {
-    return this.software;
+    return this.software.map((software) => ({
+      ...software,
+      createdAt: format(new Date(software.createdAt), 'dd/MM/yyyy'),
+      free: software.free ? 'Sim' : 'Não',
+    }));
   }
 
   createSoftware(newSoftware: createSoftwareDTO) {
@@ -23,7 +28,12 @@ export class SoftwareService {
   }
 
   getSoftwareById(id: string) {
-    return this.software.find((software) => software.id === id);
+    const software = this.software.find((software) => software.id === id);
+    if (software) {
+      software.createdAt = format(new Date(software.createdAt), 'dd/MM/yyyy');
+      software.free = software.free ? 'Sim' : 'Não';
+    }
+    return software;
   }
 
   updateSoftware(id: string, dataSoftware: EditarSoftwareDTO) {
