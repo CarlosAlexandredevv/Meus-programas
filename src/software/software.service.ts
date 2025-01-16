@@ -14,6 +14,7 @@ export class SoftwareService {
   createSoftware(newSoftware: createSoftwareDTO) {
     const softwareWithId = {
       id: uuidv4(),
+      createdAt: new Date(),
       ...newSoftware,
     };
     this.software.push(softwareWithId);
