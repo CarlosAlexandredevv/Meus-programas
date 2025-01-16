@@ -7,6 +7,8 @@ import {
 } from 'class-validator';
 
 export class createSoftwareDTO {
+  id: string;
+
   @IsNotEmpty()
   @IsString({ message: 'The name must be a string' })
   @Length(3, 50, { message: 'The name must be between 3 and 50 characters' })
