@@ -19,7 +19,7 @@ export class SoftwareService {
   createSoftware(newSoftware: createSoftwareDTO) {
     const softwareWithId = {
       id: uuidv4(),
-      idUser: 0,
+      userId: 0,
       createdAt: new Date(),
       ...newSoftware,
     };
@@ -39,7 +39,14 @@ export class SoftwareService {
   updateSoftware(id: string, dataSoftware: EditarSoftwareDTO) {
     const index = this.software.findIndex((software) => software.id === id);
     if (index !== -1) {
-      this.software[index] = { ...this.software[index], ...dataSoftware };
+      const existingSoftware = this.software[index];
+      this.software[index] = {
+        ...existingSoftware,
+        ...dataSoftware,
+        id: existingSoftware.id,
+        userId: existingSoftware.userId,
+        createdAt: existingSoftware.createdAt,
+      };
       return this.software[index];
     }
     return null;

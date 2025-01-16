@@ -9,7 +9,7 @@ import {
 export class createSoftwareDTO {
   id: string;
   createdAt: Date;
-  idUser: number;
+  userId: number;
 
   @IsNotEmpty()
   @IsString({ message: 'The name must be a string' })
