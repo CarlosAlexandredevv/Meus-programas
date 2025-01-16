@@ -14,6 +14,9 @@ export class EditarSoftwareDTO {
   description?: string;
 
   @IsOptional()
+  category?: string;
+
+  @IsOptional()
   free?: boolean;
 
   @IsOptional()

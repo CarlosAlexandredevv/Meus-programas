@@ -29,6 +29,13 @@ export class createSoftwareDTO {
   description: string;
 
   @IsNotEmpty()
+  @IsString({ message: 'The category must be a string' })
+  @Length(1, 50, {
+    message: 'The category must be between 1 and 50 characters',
+  })
+  category: string;
+
+  @IsNotEmpty()
   @IsBoolean({ message: 'The free must be a boolean' })
   free: boolean;
 
