@@ -32,4 +32,13 @@ export class SoftwareService {
     }
     return null;
   }
+
+  deleteSoftware(id: string) {
+    const index = this.software.findIndex((software) => software.id === id);
+    if (index !== -1) {
+      this.software.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
 }

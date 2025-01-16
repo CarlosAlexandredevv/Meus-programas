@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { SoftwareService } from './software.service';
 import { createSoftwareDTO } from './dto/CreateSoftwareDTO';
 
@@ -30,5 +38,10 @@ export class SoftwareController {
   ) {
     dataSoftware.id = id;
     return this.softwareService.updateSoftware(id, dataSoftware);
+  }
+
+  @Delete(':id')
+  deleteSoftware(@Param('id') id: string) {
+    return this.softwareService.deleteSoftware(id);
   }
 }
