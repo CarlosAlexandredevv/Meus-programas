@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SoftwareModule } from './software/software.module';
+import { ProgramasModule } from './programas/programas.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    SoftwareModule,
+    ProgramasModule,
     AuthModule,
     JwtModule.register({
       global: true,
-      secret: 'tchau',
+      secret: 'ola',
       signOptions: { expiresIn: '1d' },
     }),
   ],

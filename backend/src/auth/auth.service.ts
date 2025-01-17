@@ -1,51 +1,55 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateUserDTO } from './dto/CreateUserDTO';
+import { CriarUsuarioDTO } from './dto/criarUsuario.dto';
+import { LogarUsuarioDTO } from './dto/logarUsuario.dto';
 import { JwtService } from '@nestjs/jwt';
-import { LoginUserDTO } from './dto/LogarUserDto';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
-  users = [
+  usuarios = [
     {
       nome: 'Carlos',
       email: 'carlos@gmail.com',
-      senha: '1123',
+      senha: '123456',
       id: 1000,
     },
     {
       nome: 'Fabio',
       email: 'fabio@gmail.com',
-      senha: '123',
+      senha: '123456',
       id: 1001,
     },
   ];
+  proximoId = 1002;
 
-  nextId = 1002;
-
-  register(user: CreateUserDTO) {
-    return this.users.push({
-      ...user,
-      id: this.nextId++,
+  cadastrar(usuario: CriarUsuarioDTO) {
+    return this.usuarios.push({
+      ...usuario,
+      id: this.proximoId++,
     });
   }
 
-  login(user: LoginUserDTO) {
-    const { email, senha } = user;
-    const userApp = this.users.find((user) => user.email === email);
+  logar(usuario: LogarUsuarioDTO) {
+    const { email, senha } = usuario;
 
-    if (!userApp || userApp?.senha !== senha) {
+    const usuarioApp = this.usuarios.find((usuario) => usuario.email === email);
+
+    if (!usuarioApp || usuarioApp?.senha !== senha) {
       throw new UnauthorizedException();
     }
 
     const payload = {
-      email: userApp.email,
+      email: usuarioApp.email,
     };
 
     return {
-      nome: userApp.nome,
-      email: userApp.email,
+      nome: usuarioApp.nome,
+      email: usuarioApp.email,
       token: this.jwtService.sign(payload),
     };
+  }
+
+  pegarUsuarioPorEmail(email: string) {
+    return this.usuarios.find((usuario) => usuario.email === email);
   }
 }
