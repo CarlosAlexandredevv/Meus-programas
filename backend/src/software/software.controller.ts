@@ -6,13 +6,16 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { SoftwareService } from './software.service';
 import { createSoftwareDTO } from './dto/CreateSoftwareDTO';
 
 import { EditarSoftwareDTO } from './dto/EditarSoftwareDTO';
+import { JwtGuard } from 'src/jwt/jwt.guard';
 
 @Controller('software')
+@UseGuards(JwtGuard)
 export class SoftwareController {
   constructor(private readonly softwareService: SoftwareService) {}
 
