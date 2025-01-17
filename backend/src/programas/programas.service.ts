@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CriarProgramaDTO } from './dto/criar-programa.dto';
 import { AtualizarProgramaDTO } from './dto/atualizar-programa.dto';
 import { AuthService } from 'src/auth/auth.service';
+
 @Injectable()
 export class ProgramasService {
   constructor(private readonly authService: AuthService) {}
+
   programas: any = [
     {
       nome: 'GIMP',
@@ -20,12 +22,10 @@ export class ProgramasService {
     {
       nome: 'LibreOffice',
       site: 'https://www.libreoffice.org',
-      descricao:
-        'LibreOffice é uma suíte de escritório gratuita e de código aberto.',
+      descricao: 'LibreOffice é uma suíte de escritório gratuita e de código aberto.',
       categoria: 'UTILITARIO',
       gratuito: true,
-      comentarios:
-        'Uso o LibreOffice para todas as minhas necessidades de escritório.',
+      comentarios: 'Uso o LibreOffice para todas as minhas necessidades de escritório.',
       inseridoEm: Date.now(),
       id: 2,
       idUsuario: 1001,
@@ -42,11 +42,20 @@ export class ProgramasService {
       idUsuario: 1001,
     },
   ];
+
   proximoId = 5;
 
   pegarIdUsuario(email: string) {
-    const { id } = this.authService.pegarUsuarioPorEmail(email);
-    return id;
+    const usuario = this.authService.pegarUsuarioPorEmail(email);
+    if (!usuario) {
+      // Retorne array vazio ou lance exceção, dependendo do comportamento desejado
+      return [];
+    }
+    const id = usuario.id;
+    const userPrograms = this.programas.filter(
+      (programa) => programa.idUsuario === id,
+    );
+    return userPrograms || [];
   }
 
   criar(programa: CriarProgramaDTO, emailUsuario: string) {
@@ -90,5 +99,12 @@ export class ProgramasService {
     const programaNovo = { ...this.programas[indice], ...programaAtualizado };
     this.programas[indice] = programaNovo;
     return programaNovo;
+  }
+
+  findAll() {
+    if (!this.programas || this.programas.length === 0) {
+      return [];
+    }
+    return this.programas;
   }
 }
